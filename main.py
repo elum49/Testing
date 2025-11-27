@@ -51,13 +51,21 @@ def find_largest_magnitude(numbers_list):
     Возвращает это число.
     """
     if not numbers_list:
-        return None  # Исправлено: корректная обработка пустого списка
-
+        return None
+    
+    # Проверка типов элементов списка
+    if not all(isinstance(num, ComplexNumber) for num in numbers_list):
+        raise TypeError("Все элементы списка должны быть ComplexNumber")
+    
     largest = numbers_list[0]
-    for num in numbers_list:
-        # Исправлено: используется правильный метод magnitude
-        if num.magnitude() > largest.magnitude():
+    largest_magnitude = largest.magnitude()
+    
+    for num in numbers_list[1:]:
+        current_magnitude = num.magnitude()
+        if current_magnitude > largest_magnitude:
             largest = num
+            largest_magnitude = current_magnitude
+    
     return largest
 
 # --- Исправленная функция с синтаксической ошибкой ---
@@ -65,21 +73,37 @@ def print_summary(real_part, imag_part):
     # Исправлено: добавлена закрывающая скобка
     print(f"Действительная часть: {real_part}, Мнимая часть: {imag_part}")
 
-# --- Пример использования (исправленный) ---
-num1 = ComplexNumber(3, 4)
-num2 = ComplexNumber(1, -2)
-num3 = ComplexNumber(0, 5)
+if __name__ == "__main__":
+    # Создание комплексных чисел
+    num1 = ComplexNumber(3, 4)
+    num2 = ComplexNumber(1, -2)
+    num3 = ComplexNumber(0, 5)
+    
+    # Вывод чисел
+    print("Число 1:", num1)
+    print("Число 2:", num2)
+    print("Число 3:", num3)
+    
+    # Арифметические операции
+    print("Сложение:", num1 + num2)
+    print("Вычитание:", num1 - num2)
+    print("Умножение:", num1 * num2)
+    
+    # Модули чисел
+    print("Модуль числа 1:", num1.magnitude())
+    print("Модуль числа 2:", num2.magnitude())
+    print("Модуль числа 3:", num3.magnitude())
+    
+    # Поиск числа с наибольшим модулем
+    numbers = [num1, num2, num3]
+    largest_num = find_largest_magnitude(numbers)
+    print("Число с наибольшим модулем:", largest_num)
+    
+    # Демонстрация вспомогательной функции
+    print_summary(10, 20)
 
-print("Число 1:", num1)
-print("Число 2:", num2)
-print("Сложение:", num1 + num2)
-print("Вычитание:", num1 - num2)
-print("Умножение:", num1 * num2)
-print("Модуль числа 1:", num1.magnitude())
 
-numbers = [num1, num2, num3]
-largest_num = find_largest_magnitude(numbers)
-print("Число с наибольшим модулем:", largest_num)
 
-# Теперь функция работает корректно
-print_summary(10, 20)
+
+
+    
